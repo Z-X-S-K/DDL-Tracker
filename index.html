@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JD / PhD / Kairesa Command Center</title>
+  <meta name="description" content="JD/PhD/Kairesa申请冲刺计划、T10 JD截止日期、LSAT节点、10天周期和本地打卡仪表盘。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-wrap" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="回到首页">
+        <span class="brand-mark">K</span>
+        <span>ApplyOS</span>
+      </a>
+      <div class="nav-links">
+        <a href="#dashboard">仪表盘</a>
+        <a href="#jd">JD T10</a>
+        <a href="#timeline">10天周期</a>
+        <a href="#tracker">打卡</a>
+        <a href="#rules">应急</a>
+      </div>
+      <button id="themeToggle" class="ghost-btn" type="button">切换模式</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow">JD / PhD / Kairesa · 2026-06-15 → 2027-02-15</p>
+        <h1>申请冲刺不是填满日历，而是建立一个可恢复系统。</h1>
+        <p class="hero-text">主线：LSAT + JD申请；支线：PhD研究写作；底盘：现金流；现实实验室：Kairesa。网站数据保存在浏览器本地，可直接部署到 GitHub Pages。</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#dashboard">查看当前优先级</a>
+          <button class="secondary-btn" id="downloadIcsBtn" type="button">下载关键节点 ICS</button>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="countdown-card urgent">
+          <span class="label">下一关键节点</span>
+          <strong id="nextMilestoneTitle">计算中...</strong>
+          <span id="nextMilestoneDate">—</span>
+          <div class="meter"><span id="overallProgressBar"></span></div>
+          <small id="overallProgressText">—</small>
+        </div>
+        <div class="mini-grid">
+          <div><span>第一批提交</span><strong>Oct 15–Nov 1</strong></div>
+          <div><span>ED决定</span><strong>Nov 15前</strong></div>
+          <div><span>T10 Regular</span><strong>Dec 31前</strong></div>
+          <div><span>最终安全线</span><strong>Feb 15</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="section-shell">
+      <div class="section-heading">
+        <p class="eyebrow">Command Dashboard</p>
+        <h2>今天应该优先做什么</h2>
+        <p>输入几个真实状态，系统会按你的规则给出当日模式：正常、冲刺、现金流、应急。</p>
+      </div>
+      <div class="dashboard-grid">
+        <article class="card current-card">
+          <h3>当前10天周期</h3>
+          <div id="currentCycleBox" class="cycle-now"></div>
+        </article>
+        <article class="card mode-card">
+          <h3>状态诊断</h3>
+          <form id="modeForm" class="form-grid">
+            <label>现金可支撑天数<input type="number" id="cashDays" min="0" value="30" /></label>
+            <label>最近PT/目标LSAT<input type="number" id="ptScore" min="120" max="180" value="165" /></label>
+            <label>压力 1–10<input type="number" id="stressScore" min="1" max="10" value="5" /></label>
+            <label>本周工作小时<input type="number" id="workHours" min="0" value="30" /></label>
+          </form>
+          <div id="modeResult" class="mode-result"></div>
+        </article>
+      </div>
+      <div id="strategyCards" class="strategy-grid"></div>
+    </section>
+
+    <section id="jd" class="section-shell">
+      <div class="section-heading two-col-heading">
+        <div>
+          <p class="eyebrow">JD T10 / 11 schools</p>
+          <h2>更新后的关键时间节点</h2>
+          <p>按你给的2026 U.S. News口径：第9名并列，所以T10实际列入11所。Fall 2027官方页面通常要等2026年8–9月更新；这里先按同月同日规划。</p>
+        </div>
+        <div class="notice-card">
+          <strong>内部纪律</strong>
+          <span>不要按最终截止日准备。Yale可放到12月，但其他rolling学校第一批尽量Oct 15–Nov 1提交。</span>
+        </div>
+      </div>
+      <div class="filters" role="group" aria-label="学校筛选">
+        <button class="chip active" data-school-filter="all" type="button">全部</button>
+        <button class="chip" data-school-filter="ed" type="button">有ED/特殊截止</button>
+        <button class="chip" data-school-filter="feb15" type="button">Feb 15附近</button>
+        <button class="chip" data-school-filter="later" type="button">Feb 28 / Mar 1</button>
+      </div>
+      <div class="table-wrap">
+        <table id="schoolTable">
+          <thead><tr><th>排名</th><th>学校</th><th>申请开放</th><th>Regular截止</th><th>ED / 特殊截止</th><th>你的内部线</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="milestoneGrid" class="milestone-grid"></div>
+    </section>
+
+    <section id="weekly" class="section-shell split-section">
+      <div class="section-heading">
+        <p class="eyebrow">Weekly Template</p>
+        <h2>每周固定时间模板</h2>
+        <p>核心逻辑：工作日保现金流，早晨保LSAT，晚上保写作；周日完整留空。</p>
+      </div>
+      <div id="weeklyTemplate" class="weekly-grid"></div>
+    </section>
+
+    <section id="lsat" class="section-shell">
+      <div class="section-heading">
+        <p class="eyebrow">LSAT</p>
+        <h2>官方考试节点</h2>
+        <p>日期以 LSAC 官方页面为准；页面上也提示日期可能变动，所以报名/改期前再核对。</p>
+      </div>
+      <div id="lsatGrid" class="lsat-grid"></div>
+    </section>
+
+    <section id="timeline" class="section-shell">
+      <div class="section-heading two-col-heading">
+        <div>
+          <p class="eyebrow">10-day Cycles</p>
+          <h2>25个10天周期</h2>
+          <p>每个周期只问一个问题：我是否比10天前更有选择权？勾选任务会保存在本机浏览器。</p>
+        </div>
+        <div class="timeline-tools">
+          <input id="cycleSearch" type="search" placeholder="搜索：LSAT / PhD / ED / Kairesa" />
+          <button id="resetProgress" class="ghost-btn danger" type="button">清空勾选</button>
+        </div>
+      </div>
+      <div id="cycleList" class="cycle-list"></div>
+    </section>
+
+    <section id="tracker" class="section-shell">
+      <div class="section-heading">
+        <p class="eyebrow">Local Tracker</p>
+        <h2>每日打卡与CSV导出</h2>
+        <p>所有数据只存在本地浏览器，不上传服务器；适合GitHub Pages免费部署。</p>
+      </div>
+      <div class="tracker-grid">
+        <form id="dailyForm" class="card tracker-form">
+          <label>日期<input type="date" id="logDate" required /></label>
+          <label>LSAT小时<input type="number" step="0.25" id="logLsat" value="2" /></label>
+          <label>PT/题组分数或正确率<input type="text" id="logScore" placeholder="例如 165 / LR 80%" /></label>
+          <label>工作小时<input type="number" step="0.25" id="logWork" value="6" /></label>
+          <label>现金可支撑天数<input type="number" id="logCash" value="30" /></label>
+          <label>写作字数<input type="number" id="logWords" value="300" /></label>
+          <label>Kairesa外联数<input type="number" id="logOutreach" value="0" /></label>
+          <label>压力1–10<input type="number" id="logStress" min="1" max="10" value="5" /></label>
+          <label class="wide">备注<textarea id="logNote" placeholder="今天最该保留/删除的任务"></textarea></label>
+          <button class="primary-btn wide" type="submit">保存今日打卡</button>
+        </form>
+        <article class="card log-card">
+          <div class="card-row">
+            <h3>最近记录</h3>
+            <button id="exportCsv" class="secondary-btn" type="button">导出CSV</button>
+          </div>
+          <div id="logSummary" class="log-summary"></div>
+          <div id="logList" class="log-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="rules" class="section-shell">
+      <div class="section-heading">
+        <p class="eyebrow">Recovery System</p>
+        <h2>备用与应急方案</h2>
+        <p>这个计划的价值不是永远不失控，而是失控后能快速回到主线。</p>
+      </div>
+      <div id="rulesGrid" class="rules-grid"></div>
+    </section>
+
+    <section id="sources" class="section-shell sources-section">
+      <div class="section-heading">
+        <p class="eyebrow">Notes</p>
+        <h2>数据注记</h2>
+      </div>
+      <ul id="sourceNotes"></ul>
+      <p class="fineprint">部署方式：把本文件夹里的 index.html、styles.css、script.js、data.js、.nojekyll 上传到 GitHub 仓库根目录，Settings → Pages → Deploy from branch → main / root。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>ApplyOS / Kairesa Coach prototype</span>
+    <span>Built for GitHub Pages · localStorage only</span>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
